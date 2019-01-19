@@ -1,6 +1,131 @@
-token: 53e54ca5bfbf325a57d24562f86d7c352ca202b8
 elasticSearch:
     url: http://192.168.222.240:9200
-host: go-last-values
-port: 9990
-local: /home/pi/go/src/go-prometheus-to-elastic/local_storage.yaml
+metricsEnpoint:
+    url: http://192.168.222.51:9991
+host: go-heating
+port: 9992
+settings:
+    temperatureMetric:
+        name : zway_temperature_salon_degre_0
+    heaterMetric:
+        name: zway_actionneur_chauffage_level_0
+        ip: 192.168.222.54
+        id: 62
+        commandClass: 37
+        instance: 0
+    levels:
+    -   name: low
+        level: 19.5
+    -   name: high
+        level: 20.5
+    -   name: away
+        level: 15
+normal:
+    -   day: 0
+        name: sunday
+        settings:
+        -   from: 0
+            to: 600
+            level: low
+        -   from : 800
+            to: 2200
+            level: high
+        -   from : 2200
+            to:    2359
+            level: low
+    -   day: 0
+        name: monday
+        settings:
+        -   from: 0
+            to: 600
+            level: low
+        -   from : 600
+            to: 800
+            level: high
+        -   from : 800
+            to: 1630
+            level: low
+        -   from : 1630
+            to: 2200
+            level: high
+        -   from : 2200
+            to:    2359
+            level: low
+    -   day: 2
+        name: tuesday
+        settings:
+        -   from: 0
+            to: 600
+            level: low
+        -   from : 600
+            to: 800
+            level: high
+        -   from : 800
+            to: 1630
+            level: low
+        -   from : 1630
+            to: 2200
+            level: high
+        -   from : 2200
+            to:    2359
+            level: low
+    -   day: 3
+        name: wednesday
+        settings:
+        -   from: 0
+            to: 600
+            level: low
+        -   from : 800
+            to: 2200
+            level: high
+        -   from : 2200
+            to:    2359
+            level: low
+    -   day: 4
+        name: thursday
+        settings:
+        -   from: 0
+            to: 600
+            level: low
+        -   from : 600
+            to: 800
+            level: high
+        -   from : 800
+            to: 1630
+            level: low
+        -   from : 1630
+            to: 2200
+            level: high
+        -   from : 2200
+            to:    2359
+            level: low
+    -   day: 5
+        name: friday
+        settings:
+        -   from: 0
+            to: 600
+            level: low
+        -   from : 600
+            to: 800
+            level: high
+        -   from : 800
+            to: 1630
+            level: low
+        -   from : 1630
+            to: 2200
+            level: high
+        -   from : 2200
+            to:    2359
+            level: low
+    -   day: 6
+        name: saturday
+        settings:
+        -   from: 0
+            to: 600
+            level: low
+        -   from : 800
+            to: 2200
+            level: high
+        -   from : 2200
+            to:    2359
+            level: low
