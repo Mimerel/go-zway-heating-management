@@ -1,0 +1,6 @@
+token: 53e54ca5bfbf325a57d24562f86d7c352ca202b8
+elasticSearch:
+    url: http://192.168.222.240:9200
+host: go-last-values
+port: 9990
+local: /home/pi/go/src/go-prometheus-to-elastic/local_storage.yaml
