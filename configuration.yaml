@@ -3,7 +3,7 @@ elasticSearch:
 metricsEnpoint:
   url: http://192.168.222.51:9993
 host: go-heating
-ip: 192.168.222.10
+ip: 192.168.222.51
 port: "9991"
 settings:
   levels:
