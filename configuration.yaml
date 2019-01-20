@@ -1,12 +1,12 @@
 elasticSearch:
-    url: http://192.168.222.240:9200
+    url:
 metricsEnpoint:
     url: http://192.168.222.51:9993
 host: go-heating
 port: 9991
 settings:
     temperatureMetric:
-        name : zway_temperature_salon_degre_0
+        name: zway_temperature_salon_degre_0
     heaterMetric:
         name: zway_actionneur_chauffage_level_0
         ip: 192.168.222.54

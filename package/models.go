@@ -11,8 +11,6 @@ type Configuration struct {
 	GlobalSettings GlobalSettingsType `yaml:"settings,omitempty"`
 	NormalValues []Normal `yaml:"normal,omitempty"`
 	Metrics []StructuredData
-	ActualHeater ZwaveParams
-	ActualTemperature ZwaveParams
 	Moment Moment
 }
 
@@ -38,9 +36,9 @@ type StructuredData struct {
 }
 
 type GlobalSettingsType struct {
-	Levels []Level `yaml:"level,omitempty"`
-	HeaterMetricName string `yaml:"heaterMetricName,omitempty"`
-	TemperatureMetricName string `yaml:"temperatureMetricName,omitempty"`
+	Levels []Level `yaml:"levels,omitempty"`
+	ActualHeater ZwaveParams `yaml:"heaterMetric,omitempty"`
+	ActualTemperature ZwaveParams `yaml:"temperatureMetric,omitempty"`
 }
 
 type Level struct {
@@ -66,4 +64,10 @@ type Moment struct {
 	Time int
 	Weekday time.Weekday
 	Date int
+}
+
+type Status struct {
+	Heater_On float64
+	Temperature_Requested float64
+	Temperature_Actual float64
 }
