@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heating Status</title>
+</head>
+<body>
+<h1 style="color: #5e9ca0;">Heating Settings</h1>
+<h2 style="color: #2e6c80;">Actual Settings:</h2>
+<table>
+    <tbody>
+    <tr>
+        <td>Heater level</td>
+        <td>{{.Heater_Level}}</td>
+    </tr>
+    <tr>
+        <td>Heater Requested temperature</td>
+        <td>{{.Temperature_Requested}} °C</td>
+    </tr>
+    <tr>
+        <td>House temperature</td>
+        <td>{{.Temperature_Actual}} °C</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

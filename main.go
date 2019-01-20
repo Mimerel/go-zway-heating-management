@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/Mimerel/go-logger-client"
 	"github.com/op/go-logging"
 	"go-zway-heating-management/package"
+	"html/template"
 	"net/http"
 	"os"
 )
@@ -35,15 +37,31 @@ func main() {
 		}
 	})
 	http.HandleFunc("/status", func(w http.ResponseWriter, r *http.Request) {
-		err := _package.HeatingStatus(w, r, &config)
+		t := template.New("status.html")
+		t, err := t.ParseFiles("./package/templates/status.html")
 		if err != nil {
-			logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to update heating %+v ", err))
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		} else {
-			w.WriteHeader(200)
+			fmt.Printf("Error Parsing template%+v", err)
+		}
+		data, err := _package.HeatingStatus(&config)
+		err = t.Execute(w, data)
+		if err != nil {
+			fmt.Printf("Error Execution %+v", err)
 		}
 	})
+
+	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
+		data, err := _package.HeatingStatus(&config)
+		var js []byte
+		js, err = json.Marshal(data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	})
+
+
+
 	http.ListenAndServe(":"+Port, nil)
 }
 

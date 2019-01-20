@@ -1,17 +1,15 @@
 package _package
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/Mimerel/go-logger-client"
-	"net/http"
 )
 
-func HeatingStatus(w http.ResponseWriter, r *http.Request, config *Configuration) (error) {
+func HeatingStatus( config *Configuration) (data Status, err error) {
 	GetTimeAndDay(config)
 	setLevel, err := getLevel(config)
 	if err != nil {
-		return err
+		return data, err
 	}
 	FloatLevel := getValueOfLevel(config, setLevel)
 	heater := 255.0
@@ -31,14 +29,5 @@ func HeatingStatus(w http.ResponseWriter, r *http.Request, config *Configuration
 		}
 	}
 
-	data := Status{	Heater_Level: heater, Temperature_Requested:FloatLevel, Temperature_Actual: temperature}
-	var js []byte
-	js, err = json.Marshal(data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return err
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
-	return nil
+	return Status{	Heater_Level: heater, Temperature_Requested:FloatLevel, Temperature_Actual: temperature}, nil
 }
