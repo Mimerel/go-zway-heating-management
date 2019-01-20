@@ -33,7 +33,7 @@ normal:
         -   from : 2200
             to:    2359
             level: low
-    -   day: 0
+    -   day: 1
         name: monday
         settings:
         -   from: 0
