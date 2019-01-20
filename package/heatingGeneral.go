@@ -117,7 +117,7 @@ func GetInitialHeaterParams(config *Configuration) (floatLevel float64, heater f
 	} else if config.TemporaryValues.Level != "" {
 		config.TemporaryValues = Moment{}
 	}
-	return getValueOfLevel(config, setLevel), 255.0, 9999.0, nil
+	return getValueOfLevel(config, setLevel), 0.0, 9999.0, nil
 }
 
 func UpdateYamFile(config *Configuration)  {

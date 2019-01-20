@@ -79,4 +79,5 @@ type Status struct {
 	TemporaryLevel string
 	IsTemporary bool
 	IpPort string
+	UpdateTime time.Time
 }

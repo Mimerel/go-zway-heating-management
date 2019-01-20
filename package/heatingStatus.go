@@ -35,6 +35,7 @@ func HeatingStatus( config *Configuration) (data Status, err error) {
 		data.IsTemporary = false
 	}
 	data.IpPort = config.Ip + ":" + config.Port
+	data.UpdateTime = config.Moment.Moment
 	return data, nil
 }
 
