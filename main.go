@@ -38,7 +38,7 @@ func main() {
 	})
 	http.HandleFunc("/status", func(w http.ResponseWriter, r *http.Request) {
 		t := template.New("status.html")
-		t, err := t.ParseFiles("./package/templates/status.html")
+		t, err := t.ParseFiles("/home/pi/go/src/go-zway-heating-management/package/templates/status.html")
 		if err != nil {
 			fmt.Printf("Error Parsing template%+v", err)
 		}
