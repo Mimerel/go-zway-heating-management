@@ -1,7 +1,7 @@
 elasticSearch:
     url: http://192.168.222.240:9200
 metricsEnpoint:
-    url: http://192.168.222.51:9990
+    url: http://192.168.222.51:9993
 host: go-heating
 port: 9991
 settings:
