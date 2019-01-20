@@ -29,6 +29,7 @@ func main() {
 		if err != nil {
 			logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to update heating %+v ", err))
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		} else {
 			w.WriteHeader(200)
 		}
@@ -38,6 +39,7 @@ func main() {
 		if err != nil {
 			logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to update heating %+v ", err))
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		} else {
 			w.WriteHeader(200)
 		}

@@ -31,7 +31,7 @@ func HeatingStatus(w http.ResponseWriter, r *http.Request, config *Configuration
 		}
 	}
 
-	data := Status{	heater, FloatLevel, temperature}
+	data := Status{	Heater_Level: heater, Temperature_Requested:FloatLevel, Temperature_Actual: temperature}
 	var js []byte
 	js, err = json.Marshal(data)
 	if err != nil {

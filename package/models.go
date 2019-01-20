@@ -67,7 +67,7 @@ type Moment struct {
 }
 
 type Status struct {
-	Heater_On float64
+	Heater_Level float64
 	Temperature_Requested float64
 	Temperature_Actual float64
 }
