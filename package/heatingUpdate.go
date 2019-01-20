@@ -8,13 +8,7 @@ import (
 
 func UpdateHeating(w http.ResponseWriter, r *http.Request, config *Configuration) (error) {
 	GetTimeAndDay(config)
-	setLevel, err := getLevel(config)
-	if err != nil {
-		return err
-	}
-	FloatLevel := getValueOfLevel(config, setLevel)
-	heater := 255.0
-	temperature := 9999.0
+	floatLevel, heater, temperature, err := GetInitialHeaterParams(config)
 
 	// Getting actual metrics and values for required metrics
 	err = getAllActualMetricValues(config)
@@ -30,7 +24,7 @@ func UpdateHeating(w http.ResponseWriter, r *http.Request, config *Configuration
 		}
 	}
 
-	activateHeating := CheckIfHeatingNeedActivating(config, FloatLevel, temperature)
+	activateHeating := CheckIfHeatingNeedActivating(config, floatLevel, temperature)
 	if heater == 0 && activateHeating {
 		err = sendCommandToUpdateHeating(config, 255)
 	}

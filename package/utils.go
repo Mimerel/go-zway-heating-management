@@ -6,15 +6,25 @@ import (
 
 func GetTimeAndDay(config *Configuration) {
 	// getting time
-	moment := time.Now()
-	hour := moment.Hour() * 100
-	config.Moment.Time = hour + moment.Minute()
+	config.Moment.Moment = time.Now()
+	hour := config.Moment.Moment.Hour() * 100
+
+	config.Moment.Time = hour + config.Moment.Moment.Minute()
 	// getting weekday
-	config.Moment.Weekday = moment.Weekday()
+	config.Moment.Weekday = config.Moment.Moment.Weekday()
 	// creatingDate
-	config.Moment.Date = CreateDate(moment)
+	config.Moment.Date = CreateDate(config.Moment.Moment)
 }
 
 func CreateDate(moment time.Time) int {
 	return moment.Year() * 10000 + int(moment.Month()) * 100 + moment.Day()
+}
+
+func StringInArray(value string, list []string) (bool) {
+	for _,v := range list {
+		if value == v {
+			return true
+		}
+	}
+	return false
 }

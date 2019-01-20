@@ -26,6 +26,7 @@ func main() {
 
 	config := _package.ReadConfiguration()
 	Port := config.Port
+
 	http.HandleFunc("/update", func(w http.ResponseWriter, r *http.Request) {
 		err := _package.UpdateHeating(w, r, &config)
 		if err != nil {
@@ -36,18 +37,20 @@ func main() {
 			w.WriteHeader(200)
 		}
 	})
+
 	http.HandleFunc("/status", func(w http.ResponseWriter, r *http.Request) {
-		t := template.New("status.html")
-		t, err := t.ParseFiles("/home/pi/go/src/go-zway-heating-management/package/templates/status.html")
+		StatusPage(w, r, &config)
+	})
+
+	http.HandleFunc("/temporary/", func(w http.ResponseWriter, r *http.Request) {
+		err :=	_package.SettingTemporaryValues(&config, r.URL.Path)
 		if err != nil {
-			fmt.Printf("Error Parsing template%+v", err)
-		}
-		data, err := _package.HeatingStatus(&config)
-		err = t.Execute(w, data)
-		if err != nil {
-			fmt.Printf("Error Execution %+v", err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		} else {
+			StatusPage(w, r, &config)
 		}
 	})
+
 
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
 		data, err := _package.HeatingStatus(&config)
@@ -65,4 +68,15 @@ func main() {
 	http.ListenAndServe(":"+Port, nil)
 }
 
-
+func StatusPage(w http.ResponseWriter, r *http.Request, config *_package.Configuration) {
+	t := template.New("status.html")
+	t, err := t.ParseFiles(config.GlobalSettings.ApplicationRunningPath + "/package/templates/status.html")
+	if err != nil {
+		fmt.Printf("Error Parsing template%+v", err)
+	}
+	data, err := _package.HeatingStatus(config)
+	err = t.Execute(w, data)
+	if err != nil {
+		fmt.Printf("Error Execution %+v", err)
+	}
+}

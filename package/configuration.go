@@ -5,6 +5,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 /**
@@ -29,8 +30,16 @@ func ReadConfiguration() (Configuration) {
 	if err != nil {
 		panic(err)
 	} else {
+		config.GlobalSettings.ApplicationRunningPath = strings.Replace(pathToFile, "configuration.yaml", "", 1)
+		config.GlobalSettings.AuthorizedLevels = getAllSetLevels(config.GlobalSettings.Levels)
 		fmt.Printf("Configuration Loaded : %+v \n", config)
 	}
 	return config
 }
 
+func getAllSetLevels(levels []Level) (result []string) {
+	for _, v := range levels {
+		result = append(result, v.Name)
+	}
+	return result
+}

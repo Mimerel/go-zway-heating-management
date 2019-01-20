@@ -106,4 +106,13 @@ func getValueOfLevel(config *Configuration, setLevel string) (float64) {
 	return level
 }
 
-
+func GetInitialHeaterParams(config *Configuration) (floatLevel float64, heater float64, temperature float64, err error) {
+	setLevel, err := getLevel(config)
+	if err != nil {
+		return floatLevel, heater, temperature,err
+	}
+	if config.TemporaryValues.Moment.After(config.Moment.Moment) {
+		setLevel = config.TemporaryValues.Level
+	}
+	return getValueOfLevel(config, setLevel), 255.0, 9999.0, nil
+}

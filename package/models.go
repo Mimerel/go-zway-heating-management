@@ -3,13 +3,14 @@ package _package
 import "time"
 
 type Configuration struct {
-	Token string `yaml:"token,omitempty"`
-	Elasticsearch URLS `yaml:"elasticSearch,omitempty"`
+	Elasticsearch URLS `yaml:"elasticSearch"`
 	LastMetricsEndpoint URLS `yaml:"metricsEnpoint,omitempty"`
 	Host string `yaml:"host,omitempty"`
+	Ip string `yaml:"ip,omitempty"`
 	Port string `yaml:"port,omitempty"`
 	GlobalSettings GlobalSettingsType `yaml:"settings,omitempty"`
 	NormalValues []Normal `yaml:"normal,omitempty"`
+	TemporaryValues Moment `yaml:"temporary,omitempty"`
 	Metrics []StructuredData
 	Moment Moment
 }
@@ -39,6 +40,8 @@ type GlobalSettingsType struct {
 	Levels []Level `yaml:"levels,omitempty"`
 	ActualHeater ZwaveParams `yaml:"heaterMetric,omitempty"`
 	ActualTemperature ZwaveParams `yaml:"temperatureMetric,omitempty"`
+	ApplicationRunningPath string
+	AuthorizedLevels []string
 }
 
 type Level struct {
@@ -61,13 +64,19 @@ type Period struct {
 }
 
 type Moment struct {
+	Moment time.Time
 	Time int
 	Weekday time.Weekday
 	Date int
+	Level string
 }
 
 type Status struct {
 	Heater_Level float64
 	Temperature_Requested float64
 	Temperature_Actual float64
+	Until time.Time
+	TemporaryLevel string
+	IsTemporary bool
+	IpPort string
 }

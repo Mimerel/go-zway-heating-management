@@ -6,6 +6,22 @@
 </head>
 <body>
 <h1 style="color: #5e9ca0;">Heating Settings</h1>
+{{if .IsTemporary}}
+<h2 style="color: red;">Temporary Settings:</h2>
+<table>
+    <tbody>
+    <tr>
+        <td>Temporary settings until</td>
+        <td>{{.Until}}</td>
+    </tr>
+    <tr>
+        <td>Temporary settings level</td>
+        <td>{{.TemporaryLevel}}</td>
+    </tr>
+    </tbody>
+</table>
+{{end}}
+
 <h2 style="color: #2e6c80;">Actual Settings:</h2>
 <table>
     <tbody>
@@ -23,5 +39,57 @@
     </tr>
     </tbody>
 </table>
+<h2 style="color: #2e6c80;">Temporarily force settings:</h2>
+<table>
+    <tbody>
+    <tr>
+        <td>Reset - Back to Normal</td>
+        <td><a href="http://{{.IpPort}}/temporary/reset" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <td>High - 3 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/high/3" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+        <td>High - 6 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/high/6" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+        <td>High - 12 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/high/12" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <td>Low - 3 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/low/3" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+        <td>Low - 6 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/low/6" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+        <td>Low - 12 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/low/12" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <td>Max - 3 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/max/3" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+        <td>Max - 6 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/max/6" class="button">Click Here</a></td>
+    </tr>
+    <tr>
+        <td>Max - 12 hours</td>
+        <td><a href="http://{{.IpPort}}/temporary/max/12" class="button">Click Here</a></td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>
