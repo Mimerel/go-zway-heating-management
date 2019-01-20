@@ -8,6 +8,7 @@ import (
 
 func UpdateHeating(w http.ResponseWriter, r *http.Request, config *Configuration) (error) {
 	GetTimeAndDay(config)
+	config.GlobalSettings.LastUpdate = config.Moment.Moment
 	floatLevel, heater, temperature, err := GetInitialHeaterParams(config)
 
 	// Getting actual metrics and values for required metrics

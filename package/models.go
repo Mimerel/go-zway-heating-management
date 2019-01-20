@@ -42,6 +42,7 @@ type GlobalSettingsType struct {
 	ActualTemperature ZwaveParams `yaml:"temperatureMetric,omitempty"`
 	ApplicationRunningPath string `yaml:"applicationRunningPath,omitempty"`
 	AuthorizedLevels []string `yaml:"authorizedLevels,omitempty"`
+	LastUpdate time.Time `yaml:"lastUpdate,omitempty"`
 }
 
 type Level struct {
