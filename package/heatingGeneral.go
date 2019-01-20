@@ -75,7 +75,6 @@ func CheckIfHeatingNeedActivating(config *Configuration, floatLevel float64, tem
 func getRequiredMetrics(config *Configuration) (error) {
 	found := 0
 	for _, v := range config.Metrics {
-		fmt.Printf("Searched %s , comparing to %s \n", config.GlobalSettings.ActualHeater.Name, v.Metric)
 		if v.Metric == config.GlobalSettings.ActualHeater.Name {
 			value, err := strconv.ParseFloat(v.Value, 64)
 			if err == nil {
