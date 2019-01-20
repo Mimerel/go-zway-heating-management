@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Mimerel/go-logger-client"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -111,8 +112,23 @@ func GetInitialHeaterParams(config *Configuration) (floatLevel float64, heater f
 	if err != nil {
 		return floatLevel, heater, temperature,err
 	}
-	if config.TemporaryValues.Moment.After(config.Moment.Moment) {
+	if config.TemporaryValues.Level != "" && config.TemporaryValues.Moment.After(config.Moment.Moment) {
 		setLevel = config.TemporaryValues.Level
+	} else if config.TemporaryValues.Level != "" {
+		config.TemporaryValues = Moment{}
 	}
 	return getValueOfLevel(config, setLevel), 255.0, 9999.0, nil
+}
+
+func UpdateYamFile(config *Configuration)  {
+	yamlFile, err := yaml.Marshal(config)
+	if err != nil {
+		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to yaml marshal local_storage file %+v", err))
+	}
+	err = ioutil.WriteFile(config.GlobalSettings.ApplicationRunningPath + "configuration.yaml", yamlFile, 0777)
+	if err != nil {
+		logs.Error("", "", fmt.Sprintf("Unable to write configuration file %+v", err))
+	} else {
+		logs.Info(config.Elasticsearch.Url, config.Host, "Configuration file updated\n")
+	}
 }

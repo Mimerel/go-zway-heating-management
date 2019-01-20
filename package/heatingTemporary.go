@@ -2,9 +2,6 @@ package _package
 
 import (
 	"fmt"
-	"github.com/Mimerel/go-logger-client"
-	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"strconv"
 	"strings"
 	"time"
@@ -25,7 +22,7 @@ func SettingTemporaryValues( config *Configuration, urlPath string) (err error) 
 		}
 		config.TemporaryValues.Moment = config.Moment.Moment.Local().Add(time.Hour * time.Duration(hours))
 		config.TemporaryValues.Level = urlParams[2]
-		updateYamFile(config)
+		UpdateYamFile(config)
 	} else {
 		return fmt.Errorf("Wrong number of parameters sent")
 	}
@@ -33,15 +30,3 @@ func SettingTemporaryValues( config *Configuration, urlPath string) (err error) 
 }
 
 
-func updateYamFile(config *Configuration)  {
-	yamlFile, err := yaml.Marshal(config)
-	if err != nil {
-		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to yaml marshal local_storage file %+v", err))
-	}
-	err = ioutil.WriteFile(config.GlobalSettings.ApplicationRunningPath + "configuration.yaml", yamlFile, 0777)
-	if err != nil {
-		logs.Error("", "", fmt.Sprintf("Unable to write configuration file %+v", err))
-	} else {
-		logs.Info(config.Elasticsearch.Url, config.Host, "Configuration file updated\n")
-	}
-}

@@ -58,8 +58,8 @@ type Normal struct {
 
 
 type Period struct {
-	From int `yaml:"from,omitempty"`
-	To int `yaml:"to,omitempty"`
+	From int `yaml:"from"`
+	To int `yaml:"to"`
 	Level string `yaml:"level,omitempty"`
 }
 

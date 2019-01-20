@@ -35,6 +35,7 @@ func main() {
 			return
 		} else {
 			w.WriteHeader(200)
+			_package.UpdateYamFile(&config)
 		}
 	})
 

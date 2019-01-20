@@ -34,7 +34,8 @@ settings:
 normal:
 - name: sunday
   settings:
-  - to: 600
+  - from: 0
+    to: 600
     level: low
   - from: 800
     to: 2200
@@ -45,7 +46,8 @@ normal:
 - day: 1
   name: monday
   settings:
-  - to: 600
+  - from: 0
+    to: 600
     level: low
   - from: 600
     to: 800
@@ -62,7 +64,8 @@ normal:
 - day: 2
   name: tuesday
   settings:
-  - to: 600
+  - from: 0
+    to: 600
     level: low
   - from: 600
     to: 800
@@ -79,7 +82,8 @@ normal:
 - day: 3
   name: wednesday
   settings:
-  - to: 600
+  - from: 0
+    to: 600
     level: low
   - from: 800
     to: 2200
@@ -90,7 +94,8 @@ normal:
 - day: 4
   name: thursday
   settings:
-  - to: 600
+  - from: 0
+    to: 600
     level: low
   - from: 600
     to: 800
@@ -107,7 +112,8 @@ normal:
 - day: 5
   name: friday
   settings:
-  - to: 600
+  - from: 0
+    to: 600
     level: low
   - from: 600
     to: 800
@@ -124,7 +130,8 @@ normal:
 - day: 6
   name: saturday
   settings:
-  - to: 600
+  - from: 0
+    to: 600
     level: low
   - from: 800
     to: 2200
