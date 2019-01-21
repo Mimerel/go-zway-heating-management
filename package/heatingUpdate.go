@@ -1,36 +1,30 @@
 package _package
 
 import (
-	"fmt"
-	"github.com/Mimerel/go-logger-client"
 	"net/http"
 )
 
 func UpdateHeating(w http.ResponseWriter, r *http.Request, config *Configuration) (error) {
 	GetTimeAndDay(config)
 	config.GlobalSettings.LastUpdate = config.Moment.Moment
-	floatLevel, heater, temperature, err := GetInitialHeaterParams(config)
-
-	// Getting actual metrics and values for required metrics
-	err = getAllActualMetricValues(config)
+	floatLevel, err := GetInitialHeaterParams(config)
 	if err != nil {
-		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable get actual metric values", err))
-	} else {
-		err = getRequiredMetrics(config)
-		if err != nil {
-			logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Cound not found actual metrics required", err))
-		} else {
-			heater = config.GlobalSettings.ActualHeater.Value
-			temperature = config.GlobalSettings.ActualTemperature.Value
-		}
+		floatLevel = 15
 	}
+	heater, temperature := collectMetrics(config)
 
-	activateHeating := CheckIfHeatingNeedActivating(config, floatLevel, temperature)
+	activateHeating := CheckIfHeatingNeedsActivating(config, floatLevel, temperature)
 	if heater == 0 && activateHeating {
 		err = sendCommandToUpdateHeating(config, 255)
+		if err != nil {
+			return err
+		}
 	}
 	if heater == 255 && !activateHeating {
 		err = sendCommandToUpdateHeating(config, 0)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

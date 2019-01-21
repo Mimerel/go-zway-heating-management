@@ -66,7 +66,7 @@ func getAllActualMetricValues(config *Configuration) (error) {
 }
 
 
-func CheckIfHeatingNeedActivating(config *Configuration, floatLevel float64, temperature float64) bool {
+func CheckIfHeatingNeedsActivating(config *Configuration, floatLevel float64, temperature float64) bool {
 	if temperature < floatLevel {
 		return true
 	}
@@ -107,17 +107,19 @@ func getValueOfLevel(config *Configuration, setLevel string) (float64) {
 	return level
 }
 
-func GetInitialHeaterParams(config *Configuration) (floatLevel float64, heater float64, temperature float64, err error) {
+func GetInitialHeaterParams(config *Configuration) (floatLevel float64, err error) {
 	setLevel, err := getLevel(config)
 	if err != nil {
-		return floatLevel, heater, temperature,err
+		return floatLevel,err
 	}
-	if config.TemporaryValues.Level != "" && config.TemporaryValues.Moment.After(config.Moment.Moment) {
+	if config.TemporaryValues.Moment.After(config.Moment.Moment) {
+		fmt.Printf("Using temporary values before : %s", setLevel)
 		setLevel = config.TemporaryValues.Level
+		fmt.Printf("Using temporary values after : %s", setLevel)
 	} else if config.TemporaryValues.Level != "" {
 		config.TemporaryValues = Moment{}
 	}
-	return getValueOfLevel(config, setLevel), 0.0, 9999.0, nil
+	return getValueOfLevel(config, setLevel), nil
 }
 
 func UpdateYamFile(config *Configuration)  {
