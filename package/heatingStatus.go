@@ -35,7 +35,6 @@ func collectMetrics(config *Configuration) (heater float64, temperature float64)
 		return  0, 9999.0
 		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to get actual metric values", err))
 	} else {
-		fmt.Printf("Collected Metrics")
 		err = getRequiredMetrics(config)
 		if err != nil {
 			return  0, 9999.0
@@ -43,7 +42,6 @@ func collectMetrics(config *Configuration) (heater float64, temperature float64)
 		} else {
 			heater = config.GlobalSettings.ActualHeater.Value
 			temperature = config.GlobalSettings.ActualTemperature.Value
-			fmt.Printf("heater %d, temperature %d", heater, temperature)
 		}
 	}
 

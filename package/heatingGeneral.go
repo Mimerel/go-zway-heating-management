@@ -43,7 +43,6 @@ func getAllActualMetricValues(config *Configuration) (error) {
 	postingUrl := config.LastMetricsEndpoint.Url + "/all"
 	response, err := client.Get(postingUrl)
 	if err != nil {
-		fmt.Printf("Failed to retrieve metrics")
 		return fmt.Errorf("Failed to retrieve metrics", err)
 	}
 	var metrics []StructuredData
@@ -113,9 +112,7 @@ func GetInitialHeaterParams(config *Configuration) (floatLevel float64, err erro
 		return floatLevel,err
 	}
 	if config.TemporaryValues.Moment.After(config.Moment.Moment) {
-		fmt.Printf("Using temporary values before : %s", setLevel)
 		setLevel = config.TemporaryValues.Level
-		fmt.Printf("Using temporary values after : %s", setLevel)
 	} else if config.TemporaryValues.Level != "" {
 		config.TemporaryValues = Moment{}
 	}

@@ -73,11 +73,11 @@ func StatusPage(w http.ResponseWriter, r *http.Request, config *_package.Configu
 	t := template.New("status.html")
 	t, err := t.ParseFiles(config.GlobalSettings.ApplicationRunningPath + "/package/templates/status.html")
 	if err != nil {
-		fmt.Printf("Error Parsing template%+v", err)
+		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Parsing template%+v", err))
 	}
 	data, err := _package.HeatingStatus(config)
 	err = t.Execute(w, data)
 	if err != nil {
-		fmt.Printf("Error Execution %+v", err)
+		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Execution %+v", err))
 	}
 }
