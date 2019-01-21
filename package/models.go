@@ -4,7 +4,7 @@ import "time"
 
 type Configuration struct {
 	Elasticsearch URLS `yaml:"elasticSearch"`
-	LastMetricsEndpoint URLS `yaml:"metricsEnpoint,omitempty"`
+	LastMetricsEndpoint URLS `yaml:"metricsEnpoint"`
 	Host string `yaml:"host,omitempty"`
 	Ip string `yaml:"ip,omitempty"`
 	Port string `yaml:"port,omitempty"`
@@ -25,7 +25,7 @@ type ZwaveParams struct {
 }
 
 type URLS struct {
-	Url string `yaml:"url,omitempty"`
+	Url string `yaml:"url"`
 }
 
 type StructuredData struct {
