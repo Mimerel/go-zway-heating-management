@@ -2,6 +2,8 @@ package _package
 
 import (
 	"fmt"
+	"github.com/Mimerel/go-logger-client"
+	"github.com/Mimerel/go-utils"
 	"strconv"
 	"strings"
 	"time"
@@ -17,11 +19,13 @@ func SettingTemporaryValues( config *Configuration, urlPath string) (err error) 
 		if err != nil {
 			return fmt.Errorf("unable to convert duration string to int64")
 		}
-		if !StringInArray(urlParams[2], config.GlobalSettings.AuthorizedLevels) {
+		if !go_utils.StringInArray(urlParams[2], config.GlobalSettings.AuthorizedLevels) {
 			return fmt.Errorf("Level requested does not exist %s", urlParams[2])
 		}
 		config.TemporaryValues.Moment = config.Moment.Moment.Local().Add(time.Hour * time.Duration(hours))
 		config.TemporaryValues.Level = urlParams[2]
+		logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Updated Temporary settings till %v, to level %v",config.TemporaryValues.Moment.Format(time.RFC3339), config.TemporaryValues.Level ))
+
 		UpdateYamFile(config)
 	} else {
 		return fmt.Errorf("Wrong number of parameters sent")

@@ -19,12 +19,3 @@ func GetTimeAndDay(config *Configuration) {
 func CreateDate(moment time.Time) int {
 	return moment.Year() * 10000 + int(moment.Month()) * 100 + moment.Day()
 }
-
-func StringInArray(value string, list []string) (bool) {
-	for _,v := range list {
-		if value == v {
-			return true
-		}
-	}
-	return false
-}

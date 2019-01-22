@@ -108,13 +108,17 @@ func getValueOfLevel(config *Configuration, setLevel string) (float64) {
 
 func GetInitialHeaterParams(config *Configuration) (floatLevel float64, err error) {
 	setLevel, err := getLevel(config)
+	logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Retreived heating level, %v", setLevel))
+
 	if err != nil {
 		return floatLevel,err
 	}
 	if config.TemporaryValues.Moment.After(config.Moment.Moment) {
 		setLevel = config.TemporaryValues.Level
-	} else if config.TemporaryValues.Level != "" {
+		logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Temporary heating override, %v", setLevel))
+	} else if config.TemporaryValues.Moment.Before(config.Moment.Moment) {
 		config.TemporaryValues = Moment{}
+		logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Clearing old temporary settings"))
 	}
 	return getValueOfLevel(config, setLevel), nil
 }
