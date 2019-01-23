@@ -80,6 +80,7 @@ type Status struct {
 	IsTemporary bool `yaml:"isTemporary,omitempty"`
 	IpPort string `yaml:"ipPort,omitempty"`
 	UpdateTime time.Time `yaml:"updateTime,omitempty"`
+	NormalValues []Normal `yaml:"normal,omitempty"`
 }
 
 type Confirmation struct {

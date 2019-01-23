@@ -26,6 +26,7 @@ func HeatingStatus(config *Configuration) (data Status, err error) {
 	}
 	data.IpPort = config.Ip + ":" + config.Port
 	data.UpdateTime = config.GlobalSettings.LastUpdate
+	data.NormalValues = config.NormalValues
 	return data, nil
 }
 
