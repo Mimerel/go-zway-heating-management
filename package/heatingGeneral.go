@@ -11,28 +11,25 @@ import (
 	"time"
 )
 
-func getLevel(config *Configuration, ) (string, error) {
+func getLevel(config *Configuration, ) (string) {
 	setLevel := "away"
 	for key, v := range config.NormalValues {
 		if v.Weekday == config.Moment.Weekday {
-			foundValue, err := getLevelValue(config, key)
-			if err != nil {
-				logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to find temperature ", err))
-			} else {
-				setLevel = foundValue
-			}
+			foundValue := getLevelValue(config, key)
+			setLevel = foundValue
 		}
 	}
-	return setLevel, nil
+	return setLevel
 }
 
-func getLevelValue(config *Configuration, index int) (string, error) {
+func getLevelValue(config *Configuration, index int) (value string) {
+	value = "away"
 	for _, v := range config.NormalValues[index].Settings {
-		if v.From < config.Moment.Time && v.To >= config.Moment.Time {
-			return v.Level, nil
+		if v.From < config.Moment.Time {
+			value = v.Level
 		}
 	}
-	return "away", fmt.Errorf("Unable to find normal level for weekday %s, time %d", config.Moment.Weekday, config.Moment.Time)
+	return value
 }
 
 func getAllActualMetricValues(config *Configuration) (error) {
@@ -107,12 +104,8 @@ func getValueOfLevel(config *Configuration, setLevel string) (float64) {
 }
 
 func GetInitialHeaterParams(config *Configuration) (floatLevel float64, err error) {
-	setLevel, err := getLevel(config)
+	setLevel := getLevel(config)
 	logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Retreived heating level, %v", setLevel))
-
-	if err != nil {
-		return floatLevel,err
-	}
 	if config.TemporaryValues.Moment.After(config.Moment.Moment) {
 		setLevel = config.TemporaryValues.Level
 		logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Temporary heating override, %v", setLevel))
