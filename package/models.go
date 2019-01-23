@@ -82,3 +82,7 @@ type Status struct {
 	IpPort string `yaml:"ipPort,omitempty"`
 	UpdateTime time.Time `yaml:"updateTime,omitempty"`
 }
+
+type Confirmation struct {
+	IpPort string `yaml:"ipPort,omitempty"`
+}

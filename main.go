@@ -44,14 +44,23 @@ func main() {
 	})
 
 	http.HandleFunc("/temporary/", func(w http.ResponseWriter, r *http.Request) {
-		err :=	_package.SettingTemporaryValues(&config, r.URL.Path)
+		err := _package.SettingTemporaryValues(&config, r.URL.Path)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		} else {
-			StatusPage(w, r, &config)
+			t := template.New("confirmation.html")
+			t, err := t.ParseFiles(config.GlobalSettings.ApplicationRunningPath + "/package/templates/confirmation.html")
+			if err != nil {
+				logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Parsing template%+v", err))
+			}
+			err = t.Execute(w, _package.Confirmation{
+				IpPort: config.Ip + ":" + config.Port,
+			} )
+			if err != nil {
+				logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Execution %+v", err))
+			}
 		}
 	})
-
 
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
 		data, err := _package.HeatingStatus(&config)
@@ -63,8 +72,6 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 	})
-
-
 
 	http.ListenAndServe(":"+Port, nil)
 }
