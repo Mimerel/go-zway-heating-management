@@ -2,7 +2,6 @@ package _package
 
 import (
 	"fmt"
-	"github.com/Mimerel/go-logger-client"
 	"github.com/Mimerel/go-utils"
 	"strconv"
 	"strings"
@@ -24,7 +23,7 @@ func SettingTemporaryValues( config *Configuration, urlPath string) (err error) 
 		}
 		config.TemporaryValues.Moment = config.Moment.Moment.Local().Add(time.Hour * time.Duration(hours))
 		config.TemporaryValues.Level = urlParams[2]
-		logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Updated Temporary settings till %v, to level %v",config.TemporaryValues.Moment.Format(time.RFC3339), config.TemporaryValues.Level ))
+		config.Logger.Info("Updated Temporary settings till %v, to level %v",config.TemporaryValues.Moment.Format(time.RFC3339), config.TemporaryValues.Level )
 
 		UpdateYamFile(config)
 	} else {

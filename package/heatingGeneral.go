@@ -3,7 +3,6 @@ package _package
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Mimerel/go-logger-client"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"net/http"
@@ -105,13 +104,13 @@ func getValueOfLevel(config *Configuration, setLevel string) (float64) {
 
 func GetInitialHeaterParams(config *Configuration) (floatLevel float64, err error) {
 	setLevel := getLevel(config)
-	logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Retreived heating level, %v", setLevel))
+	config.Logger.Info("Retreived heating level, %v", setLevel)
 	if config.TemporaryValues.Moment.After(config.Moment.Moment) {
 		setLevel = config.TemporaryValues.Level
-		logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Temporary heating override, %v", setLevel))
+		config.Logger.Info("Temporary heating override, %v", setLevel)
 	} else if config.TemporaryValues.Moment.Before(config.Moment.Moment) {
 		config.TemporaryValues = Moment{}
-		logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Clearing old temporary settings"))
+		config.Logger.Info("Clearing old temporary settings")
 	}
 	return getValueOfLevel(config, setLevel), nil
 }
@@ -119,12 +118,12 @@ func GetInitialHeaterParams(config *Configuration) (floatLevel float64, err erro
 func UpdateYamFile(config *Configuration)  {
 	yamlFile, err := yaml.Marshal(config)
 	if err != nil {
-		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to yaml marshal local_storage file %+v", err))
+		config.Logger.Error("Unable to yaml marshal local_storage file %+v", err)
 	}
 	err = ioutil.WriteFile(config.GlobalSettings.ApplicationRunningPath + "configuration.yaml", yamlFile, 0777)
 	if err != nil {
-		logs.Error("", "", fmt.Sprintf("Unable to write configuration file %+v", err))
+		config.Logger.Error("Unable to write configuration file %+v", err)
 	} else {
-		logs.Info(config.Elasticsearch.Url, config.Host, "Configuration file updated\n")
+		config.Logger.Info( "Configuration file updated\n")
 	}
 }

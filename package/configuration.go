@@ -1,11 +1,11 @@
 package _package
 
 import (
-	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"strings"
+	"github.com/Mimerel/go-logger-client"
 )
 
 /**
@@ -32,7 +32,8 @@ func ReadConfiguration() (Configuration) {
 	} else {
 		config.GlobalSettings.ApplicationRunningPath = strings.Replace(pathToFile, "configuration.yaml", "", 1)
 		config.GlobalSettings.AuthorizedLevels = getAllSetLevels(config.GlobalSettings.Levels)
-		fmt.Printf("Configuration Loaded : %+v \n", config)
+		config.Logger = logs.New(config.Elasticsearch.Url, config.Host)
+		config.Logger.Info("Configuration Loaded : %+v \n", config)
 	}
 	return config
 }

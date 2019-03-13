@@ -1,8 +1,6 @@
 package _package
 
 import (
-	"fmt"
-	"github.com/Mimerel/go-logger-client"
 	"net/http"
 )
 
@@ -16,7 +14,7 @@ func UpdateHeating(w http.ResponseWriter, r *http.Request, config *Configuration
 	heater, temperature := collectMetrics(config)
 
 	activateHeating := CheckIfHeatingNeedsActivating(config, floatLevel, temperature)
-	logs.Info(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Heating should be activated, %t", activateHeating))
+	config.Logger.Info("Heating should be activated, %t", activateHeating)
 	if heater == 0 && activateHeating {
 		err = sendCommandToUpdateHeating(config, 255)
 		if err != nil {

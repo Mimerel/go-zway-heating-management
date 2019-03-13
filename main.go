@@ -2,27 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/Mimerel/go-logger-client"
-	"github.com/op/go-logging"
 	"go-zway-heating-management/package"
 	"html/template"
 	"net/http"
-	"os"
-)
-
-var log = logging.MustGetLogger("default")
-
-var format = logging.MustStringFormatter(
-	`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{color:reset} %{message}`,
 )
 
 func main() {
-	backend := logging.NewLogBackend(os.Stderr, "", 0)
-	backendFormatter := logging.NewBackendFormatter(backend, format)
-	backendLeveled := logging.AddModuleLevel(backend)
-	backendLeveled.SetLevel(logging.NOTICE, "")
-	logging.SetBackend(backendLeveled, backendFormatter)
 
 	config := _package.ReadConfiguration()
 	Port := config.Port
@@ -30,7 +15,7 @@ func main() {
 	http.HandleFunc("/update", func(w http.ResponseWriter, r *http.Request) {
 		err := _package.UpdateHeating(w, r, &config)
 		if err != nil {
-			logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Unable to update heating %+v ", err))
+			config.Logger.Error("Unable to update heating %+v ", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		} else {
@@ -51,13 +36,13 @@ func main() {
 			t := template.New("confirmation.html")
 			t, err := t.ParseFiles(config.GlobalSettings.ApplicationRunningPath + "/package/templates/confirmation.html")
 			if err != nil {
-				logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Parsing template%+v", err))
+				config.Logger.Error("Error Parsing template%+v", err)
 			}
 			err = t.Execute(w, _package.Confirmation{
 				IpPort: config.Ip + ":" + config.Port,
 			} )
 			if err != nil {
-				logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Execution %+v", err))
+				config.Logger.Error("Error Execution %+v", err)
 			}
 		}
 	})
@@ -80,11 +65,11 @@ func StatusPage(w http.ResponseWriter, r *http.Request, config *_package.Configu
 	t := template.New("status.html")
 	t, err := t.ParseFiles(config.GlobalSettings.ApplicationRunningPath + "/package/templates/status.html")
 	if err != nil {
-		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Parsing template%+v", err))
+		config.Logger.Error("Error Parsing template%+v", err)
 	}
 	data, err := _package.HeatingStatus(config)
 	err = t.Execute(w, data)
 	if err != nil {
-		logs.Error(config.Elasticsearch.Url, config.Host, fmt.Sprintf("Error Execution %+v", err))
+		config.Logger.Error("Error Execution %+v", err)
 	}
 }

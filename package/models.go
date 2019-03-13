@@ -1,6 +1,9 @@
 package _package
 
-import "time"
+import (
+	"github.com/Mimerel/go-logger-client"
+	"time"
+)
 
 type Configuration struct {
 	Elasticsearch URLS `yaml:"elasticSearch"`
@@ -13,6 +16,7 @@ type Configuration struct {
 	TemporaryValues Moment `yaml:"temporary,omitempty"`
 	Metrics []StructuredData `yaml:"metrics,omitempty"`
 	Moment Moment `yaml:"moment,omitempty"`
+	Logger logs.LogParams
 }
 
 type ZwaveParams struct {
